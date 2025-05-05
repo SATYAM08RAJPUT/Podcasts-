@@ -18,7 +18,16 @@ const podcastSchema = new mongoose.Schema({
   publisher: String,
 });
 
+const webbyAwards = new mongoose.Schema({
+  id: Number,
+  title: String,
+  publisher: String,
+  image: String,
+});
+
 const PodcastTreding = mongoose.model("trends", podcastSchema);
+
+const Webbyawards = mongoose.model("webbyawards", webbyAwards);
 
 app.get("/api/podcasts", async (req, res) => {
   try {
@@ -41,6 +50,17 @@ app.get("/api/podcasts/:id", async (req, res) => {
   } catch (err) {
     console.error("Error fetching podcast by ID:", err);
     res.status(500).send("Error fetching podcast");
+  }
+});
+
+app.get("/api/webbyawards", async (req, res) => {
+  try {
+    const podcasts = await Webbyawards.find();
+    console.log(podcasts);
+    res.json(podcasts);
+  } catch (err) {
+    console.error("Error fetching podcasts:", err);
+    res.status(500).send("Error fetching webbyAwards");
   }
 });
 app.listen(6063, () => {
